@@ -128,3 +128,21 @@ p {
   text-decoration: none;
   cursor: pointer;
 }
+/* Loading thing*/
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
+  border: 0.5em solid currentColor;
+  border-right-color: transparent;
+}
+.modal-header {
+  display: flex;
+}
+.consBtn {
+}

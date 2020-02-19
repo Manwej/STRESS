@@ -9,6 +9,7 @@ let fetchEverything = url => {
       let books = data.books;
       makeBookGrid(books);
       createEvent(books);
+      loadingData();
       //modalGetting(books);
     })
     .catch(error => {
@@ -44,6 +45,8 @@ const makeBookGrid = obj => {
     myModal.setAttribute("id", "myModal" + i);
     let modalContent = document.createElement("div");
     modalContent.setAttribute("class", "modal-content");
+    let modalHeader = document.createElement("div");
+    modalHeader.setAttribute("class", "modal-header");
     let closeSpan = document.createElement("span");
     closeSpan.setAttribute("class", "close");
     closeSpan.innerHTML = "&times";
@@ -51,12 +54,16 @@ const makeBookGrid = obj => {
       myModal.style.display = "none";
     });
     let nextBtn = document.createElement("button");
+    nextBtn.setAttribute("class", "consBtn btn btn-outline-secondary");
+
     nextBtn.setAttribute("id", "myButton=" + i);
     nextBtn.innerText = "Next";
     nextBtn.addEventListener("click", e => {
       carousel(e, 1, obj, myModal);
     });
     let prevBtn = document.createElement("button");
+    prevBtn.setAttribute("class", "consBtn btn btn-outline-secondary");
+
     prevBtn.setAttribute("id", "myButton=" + i);
     prevBtn.innerText = "Previous";
     prevBtn.addEventListener("click", e => {
@@ -65,8 +72,10 @@ const makeBookGrid = obj => {
     let detailImg = document.createElement("img");
     detailImg.setAttribute("src", obj[i].detail);
     modalContent.appendChild(closeSpan);
-    modalContent.appendChild(nextBtn);
-    modalContent.appendChild(prevBtn);
+    modalHeader.appendChild(prevBtn);
+    modalHeader.appendChild(nextBtn);
+
+    modalContent.appendChild(modalHeader);
 
     modalContent.appendChild(detailImg);
     myModal.appendChild(modalContent);
@@ -134,12 +143,10 @@ const carousel = (e, direction, obj, myModal) => {
 const createEvent = obj => {
   var input = document.getElementById("search-field");
   input.addEventListener("keyup", () => {
-    console.log("hello");
-    searchBtn(obj);
+    searchBtn(obj, input);
   });
 };
-const searchBtn = obj => {
-  let input = document.getElementById("search-field");
+const searchBtn = (obj, input) => {
   let filter = input.value.toUpperCase();
   var filteredBooks = [];
   for (var i = 0; i < obj.length; i++) {
@@ -147,9 +154,17 @@ const searchBtn = obj => {
       obj[i].title.toUpperCase().includes(filter) ||
       obj[i].description.toUpperCase().includes(filter)
     ) {
-      console.log(obj[i].title);
       filteredBooks.push(obj[i]);
     }
   }
   makeBookGrid(filteredBooks);
+};
+
+const loadingData = () => {
+  let loading = false;
+  if (loading == false) {
+    loading = true;
+
+    document.getElementById("loader").classList.add("d-none");
+  }
 };
